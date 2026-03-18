@@ -4,8 +4,6 @@ import HiddenProblem from "@/components/HiddenProblem";
 import GutStats from "@/components/GutStats";
 import AboutDoctor from "@/components/AboutDoctor";
 import CorrectionModel from "@/components/CorrectionModel";
-import WebinarSection from "@/components/WebinarSection";
-import ConsultationBooking from "@/components/ConsultationBooking";
 import Testimonials from "@/components/Testimonials";
 import IsThisForYou from "@/components/IsThisForYou";
 import FAQ from "@/components/FAQ";
@@ -22,8 +20,6 @@ const Index = () => {
       <GutStats />
       <AboutDoctor />
       <CorrectionModel />
-      <WebinarSection />
-      <ConsultationBooking />
       <Testimonials />
       <IsThisForYou />
       <FAQ />

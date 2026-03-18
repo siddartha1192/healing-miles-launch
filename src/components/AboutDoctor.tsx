@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useReveal } from "@/hooks/use-reveal";
 import drAmanImg from "@/assets/dr-aman.jpg";
 
@@ -11,6 +12,7 @@ const credentials = [
 
 export default function AboutDoctor() {
   const { ref, visible } = useReveal();
+  const navigate = useNavigate();
   return (
     <section id="about" className="py-24 md:py-32 section-dark">
       <div className="container mx-auto">
@@ -38,10 +40,7 @@ export default function AboutDoctor() {
                 </li>
               ))}
             </ul>
-            <button
-              onClick={() => document.querySelector("#consultation")?.scrollIntoView({ behavior: "smooth" })}
-              className="btn-primary"
-            >
+            <button onClick={() => { navigate("/consultation"); window.scrollTo({ top: 0 }); }} className="btn-primary">
               Book a Consultation →
             </button>
           </div>

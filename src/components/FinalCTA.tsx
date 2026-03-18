@@ -1,7 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function FinalCTA() {
-  const scrollTo = (id: string) => {
-    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
-  };
+  const navigate = useNavigate();
 
   return (
     <section className="py-24 md:py-32 text-center relative overflow-hidden">
@@ -13,8 +13,8 @@ export default function FinalCTA() {
           Don't wait for symptoms to get worse. Start your healing journey with expert guidance.
         </p>
         <div className="flex flex-wrap justify-center gap-6">
-          <button onClick={() => scrollTo("#webinar")} className="btn-outline px-10 py-5">Join Free Webinar</button>
-          <button onClick={() => scrollTo("#consultation")} className="btn-primary px-10 py-5">Book ₹799 Consultation</button>
+          <button onClick={() => { navigate("/webinar"); window.scrollTo({ top: 0 }); }} className="btn-outline px-10 py-5">Join Free Webinar</button>
+          <button onClick={() => { navigate("/consultation"); window.scrollTo({ top: 0 }); }} className="btn-primary px-10 py-5">Book ₹799 Consultation</button>
         </div>
       </div>
     </section>

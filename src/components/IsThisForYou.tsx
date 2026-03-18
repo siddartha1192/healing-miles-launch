@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useReveal } from "@/hooks/use-reveal";
 
 const checks = [
@@ -11,6 +12,7 @@ const checks = [
 
 export default function IsThisForYou() {
   const { ref, visible } = useReveal();
+  const navigate = useNavigate();
   return (
     <section className="py-24 md:py-32">
       <div className="container mx-auto max-w-4xl">
@@ -26,10 +28,7 @@ export default function IsThisForYou() {
           </div>
           <div className="mt-12 text-center">
             <p className="text-xl mb-8 text-foreground/70">If you checked even 2 of these — you need a correction plan.</p>
-            <button
-              onClick={() => document.querySelector("#consultation")?.scrollIntoView({ behavior: "smooth" })}
-              className="btn-primary"
-            >
+            <button onClick={() => { navigate("/consultation"); window.scrollTo({ top: 0 }); }} className="btn-primary">
               Book Your Consultation Now
             </button>
           </div>
