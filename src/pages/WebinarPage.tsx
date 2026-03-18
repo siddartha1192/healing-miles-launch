@@ -7,7 +7,7 @@ const WebinarPage = () => {
     <>
       <div className="grain-overlay" />
       <Navbar />
-      <div className="pt-24">
+      <div className="pt-20">
         <WebinarSection />
       </div>
       <Footer />
