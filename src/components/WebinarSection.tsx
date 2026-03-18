@@ -1,5 +1,6 @@
 import { useReveal } from "@/hooks/use-reveal";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const agenda = [
   {
@@ -123,6 +124,7 @@ export default function WebinarSection() {
   const heroBgRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
   const [seatsLeft, setSeatsLeft] = useState(100);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -138,75 +140,92 @@ export default function WebinarSection() {
   const seatsFilled = 100 - seatsLeft;
 
   return (
-    <div id="webinar" className="bg-background min-h-screen">
+    <div
+      id="webinar"
+      className="relative bg-background min-h-screen"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle, hsl(var(--foreground)/0.05) 1px, transparent 1px)",
+        backgroundSize: "28px 28px",
+      }}
+    >
+      {/* Radial mask fading the dot-grid out toward edges */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% 30%, transparent 40%, hsl(var(--background)) 100%)",
+        }}
+      />
 
-      {/* ── Hero Banner ── */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-secondary via-background to-secondary/60 py-20 md:py-28">
-        {/* Parallax decorative orbs */}
-        <div
-          ref={heroBgRef}
-          className="absolute inset-0 pointer-events-none"
-          style={{ transform: `translateY(${scrollY * 0.12}px)` }}
-        >
-          <div className="absolute top-[-80px] left-[-80px] w-80 h-80 rounded-full bg-primary/8 blur-3xl" />
-          <div className="absolute bottom-[-60px] right-[-60px] w-96 h-96 rounded-full bg-primary/6 blur-3xl" />
-          <div className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full bg-secondary blur-2xl opacity-60" />
-        </div>
+      <div className="container mx-auto pt-8 pb-10 lg:pt-10 lg:pb-16 relative z-10">
+        <div className="lg:grid lg:grid-cols-[1fr_460px] gap-14 lg:items-start">
 
-        <div className="container mx-auto text-center relative z-10">
-          {/* Live badge */}
-          <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/25 text-primary rounded-full px-4 py-2 text-sm font-semibold mb-6 animate-fade-up">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            FREE LIVE WEBINAR — Limited Seats
-          </div>
-
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display leading-tight mb-6 text-foreground animate-fade-up">
-            45 Minutes That Can
-            <br />
-            <span className="text-primary italic">Change Your Gut Forever</span>
-          </h1>
-
-          <p className="text-lg md:text-xl text-foreground/65 max-w-2xl mx-auto mb-10 animate-fade-up leading-relaxed">
-            Join Dr. Aman Khanna live on Zoom as he reveals the exact framework
-            that restored gut health for 5,000+ patients — completely free, no
-            strings attached.
-          </p>
-
-          {/* Event meta */}
-          <div className="flex flex-wrap items-center justify-center gap-5 md:gap-8 text-sm animate-fade-up">
-            <span className="flex items-center gap-2 text-foreground/60">
-              📅 <strong className="text-foreground">Saturday, 29th March 2025</strong>
-            </span>
-            <span className="flex items-center gap-2 text-foreground/60">
-              ⏰ <strong className="text-foreground">7:00 PM IST</strong>
-            </span>
-            <span className="flex items-center gap-2 text-foreground/60">
-              🔴 <strong className="text-foreground">Live on Zoom</strong>
-            </span>
-            <span className="flex items-center gap-2 font-semibold text-orange-500">
-              🔥 Only {seatsLeft} seats left
-            </span>
-          </div>
-
-          {/* Seat progress bar */}
-          <div className="max-w-xs mx-auto mt-6">
-            <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-              <div
-                className="h-full bg-orange-400 rounded-full transition-all duration-1000"
-                style={{ width: `${seatsFilled}%` }}
-              />
-            </div>
-            <p className="text-xs text-foreground/45 mt-1.5">{seatsFilled} of 100 seats reserved</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Main Content + Sticky CTA ── */}
-      <div className="container mx-auto py-14 lg:py-20">
-        <div className="lg:grid lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_420px] gap-12 xl:gap-16 items-start">
-
-          {/* ── Left: Scrollable Content ── */}
+          {/* ── LEFT COLUMN: scrollable ── */}
           <div className="space-y-16 lg:space-y-20">
+
+            {/* Hero area */}
+            <div className="relative">
+              {/* Parallax decorative orbs — subtle background behind hero area only */}
+              <div
+                ref={heroBgRef}
+                className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl"
+                style={{ transform: `translateY(${scrollY * 0.12}px)` }}
+              >
+                <div className="absolute top-[-80px] left-[-80px] w-80 h-80 rounded-full bg-primary/8 blur-3xl" />
+                <div className="absolute bottom-[-60px] right-[-60px] w-96 h-96 rounded-full bg-primary/6 blur-3xl" />
+                <div className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full bg-secondary blur-2xl opacity-60" />
+              </div>
+
+              <div className="relative z-10 py-10 md:py-14">
+                {/* Live badge pill */}
+                <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/25 text-primary rounded-full px-4 py-2 text-sm font-semibold mb-6 animate-fade-up">
+                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  FREE LIVE WEBINAR — Limited Seats
+                </div>
+
+                {/* H1 title */}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display leading-tight mb-6 text-foreground animate-fade-up">
+                  45 Minutes That Can
+                  <br />
+                  <span className="text-primary italic">Change Your Gut Forever</span>
+                </h1>
+
+                {/* Subtitle */}
+                <p className="text-lg md:text-xl text-foreground/65 max-w-2xl mb-10 animate-fade-up leading-relaxed">
+                  Join Dr. Aman Khanna live on Zoom as he reveals the exact framework
+                  that restored gut health for 5,000+ patients — completely free, no
+                  strings attached.
+                </p>
+
+                {/* Event meta row */}
+                <div className="flex flex-wrap items-center gap-5 md:gap-8 text-sm animate-fade-up mb-6">
+                  <span className="flex items-center gap-2 text-foreground/60">
+                    📅 <strong className="text-foreground">Saturday, 29th March 2025</strong>
+                  </span>
+                  <span className="flex items-center gap-2 text-foreground/60">
+                    ⏰ <strong className="text-foreground">7:00 PM IST</strong>
+                  </span>
+                  <span className="flex items-center gap-2 text-foreground/60">
+                    🔴 <strong className="text-foreground">Live on Zoom</strong>
+                  </span>
+                  <span className="flex items-center gap-2 font-semibold text-orange-500">
+                    🔥 Only {seatsLeft} seats left
+                  </span>
+                </div>
+
+                {/* Seat progress bar */}
+                <div className="max-w-xs">
+                  <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-orange-400 rounded-full transition-all duration-1000"
+                      style={{ width: `${seatsFilled}%` }}
+                    />
+                  </div>
+                  <p className="text-xs text-foreground/45 mt-1.5">{seatsFilled} of 100 seats reserved</p>
+                </div>
+              </div>
+            </div>
 
             {/* What You'll Learn */}
             <AnimatedSection>
@@ -366,9 +385,9 @@ export default function WebinarSection() {
             </AnimatedSection>
           </div>
 
-          {/* ── Right: Sticky CTA ── */}
-          <div className="mt-12 lg:mt-0">
-            <div className="sticky top-28 space-y-4">
+          {/* ── RIGHT COLUMN: sticky form ── */}
+          <div className="mt-12 lg:mt-0 lg:self-start lg:sticky lg:top-24">
+            <div className="space-y-4">
 
               {/* Registration Card */}
               <div className="glass-card rounded-3xl overflow-hidden border border-border shadow-lg">
@@ -377,7 +396,7 @@ export default function WebinarSection() {
                   🔴 LIVE · Sat 29 March · 7:00 PM IST
                 </div>
 
-                <div className="p-6 md:p-7">
+                <div className="p-7 md:p-9">
                   <h3 className="text-xl font-display text-foreground mb-1">
                     Reserve Your Free Seat
                   </h3>
@@ -405,21 +424,21 @@ export default function WebinarSection() {
                   </div>
 
                   {/* Form */}
-                  <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
+                  <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); navigate("/thank-you?type=webinar"); window.scrollTo({ top: 0 }); }}>
                     <input
                       type="text"
                       placeholder="Full Name"
-                      className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-foreground/38 focus:outline-none focus:border-primary transition-colors text-sm"
+                      className="w-full bg-secondary border border-border rounded-xl px-5 py-4 text-foreground placeholder:text-foreground/38 focus:outline-none focus:border-primary transition-colors text-base"
                     />
                     <input
                       type="email"
                       placeholder="Email Address"
-                      className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-foreground/38 focus:outline-none focus:border-primary transition-colors text-sm"
+                      className="w-full bg-secondary border border-border rounded-xl px-5 py-4 text-foreground placeholder:text-foreground/38 focus:outline-none focus:border-primary transition-colors text-base"
                     />
                     <input
                       type="tel"
                       placeholder="Mobile Number"
-                      className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-foreground/38 focus:outline-none focus:border-primary transition-colors text-sm"
+                      className="w-full bg-secondary border border-border rounded-xl px-5 py-4 text-foreground placeholder:text-foreground/38 focus:outline-none focus:border-primary transition-colors text-base"
                     />
                     <button
                       type="submit"
@@ -476,6 +495,7 @@ export default function WebinarSection() {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

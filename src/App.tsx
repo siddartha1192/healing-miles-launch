@@ -7,6 +7,10 @@ import Index from "./pages/Index.tsx";
 import WebinarPage from "./pages/WebinarPage.tsx";
 import ConsultationPage from "./pages/ConsultationPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import TermsPage from "./pages/TermsPage.tsx";
+import PrivacyPage from "./pages/PrivacyPage.tsx";
+import CancellationPage from "./pages/CancellationPage.tsx";
+import ThankYouPage from "./pages/ThankYouPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +24,10 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/webinar" element={<WebinarPage />} />
           <Route path="/consultation" element={<ConsultationPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/cancellation" element={<CancellationPage />} />
+          <Route path="/thank-you" element={<ThankYouPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

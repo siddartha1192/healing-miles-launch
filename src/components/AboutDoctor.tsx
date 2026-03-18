@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useReveal } from "@/hooks/use-reveal";
-import drAmanImg from "@/assets/dr-aman.jpg";
+const drAmanImg = "https://res.cloudinary.com/djx5oiwkz/image/upload/v1773863596/whatsapp-media/file_cnj1ju.png";
 
 const credentials = [
   "Treated 5,000+ patients with chronic IBS & Acidity",

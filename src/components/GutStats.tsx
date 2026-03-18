@@ -27,7 +27,7 @@ export default function GutStats() {
             const { ref: r, visible: v } = useReveal();
             return (
               <div key={i} ref={r} className={`transition-all duration-700 ${v ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`} style={{ transitionDelay: `${i * 80}ms` }}>
-                <div className="text-4xl lg:text-5xl font-display text-primary mb-3">{s.number}</div>
+                <div className="text-5xl lg:text-6xl font-display font-bold text-primary mb-3 tracking-tight">{s.number}</div>
                 <p className="text-foreground/80">{s.desc}</p>
               </div>
             );
