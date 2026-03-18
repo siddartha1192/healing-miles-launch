@@ -9,7 +9,7 @@ function StatCounter({ target, suffix, label }: { target: number; suffix: string
   const count = useCounter(target, visible);
   return (
     <div ref={ref}>
-      <div className="text-6xl font-display font-bold text-primary mb-1 tabular">{count}{suffix}</div>
+      <div className="text-4xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold text-primary mb-1 tabular">{count}{suffix}</div>
       <div className="text-xs uppercase tracking-widest text-foreground/60">{label}</div>
     </div>
   );
@@ -43,7 +43,7 @@ export default function HeroSection() {
                 Join Free Webinar →
               </button>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-foreground/10 pt-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 border-t border-foreground/10 pt-8">
               <StatCounter target={15} suffix="+" label="Years Experience" />
               <StatCounter target={5000} suffix="+" label="Patients Treated" />
               <StatCounter target={92} suffix="%" label="Satisfaction Rate" />

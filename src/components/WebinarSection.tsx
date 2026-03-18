@@ -162,7 +162,7 @@ export default function WebinarSection() {
         <div className="lg:grid lg:grid-cols-[1fr_460px] gap-14 lg:items-start">
 
           {/* ── LEFT COLUMN: scrollable ── */}
-          <div className="space-y-16 lg:space-y-20">
+          <div className="order-last lg:order-first space-y-16 lg:space-y-20">
 
             {/* Hero area */}
             <div className="relative">
@@ -386,7 +386,7 @@ export default function WebinarSection() {
           </div>
 
           {/* ── RIGHT COLUMN: sticky form ── */}
-          <div className="mt-12 lg:mt-0 lg:self-start lg:sticky lg:top-24">
+          <div className="order-first lg:order-last mt-0 lg:self-start lg:sticky lg:top-24">
             <div className="space-y-4">
 
               {/* Registration Card */}

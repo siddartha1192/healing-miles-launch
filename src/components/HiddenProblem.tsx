@@ -83,6 +83,8 @@ function ProblemCard({ p, i }: { p: (typeof problems)[0]; i: number }) {
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(32px)",
         transition: `opacity 0.7s ease ${i * 120}ms, transform 0.7s ease ${i * 120}ms`,
+        zIndex: hovered ? 100 : 1,
+        isolation: "isolate",
       }}
     >
       <div
@@ -263,7 +265,7 @@ export default function HiddenProblem() {
         </div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5" style={{ position: "relative", zIndex: 0 }}>
           {problems.map((p, i) => (
             <ProblemCard key={i} p={p} i={i} />
           ))}
