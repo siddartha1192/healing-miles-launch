@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Nunito:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -60,41 +60,52 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Cormorant Garamond', serif;
     text-wrap: balance;
     letter-spacing: -0.01em;
+    text-shadow: 0 2px 12px hsl(150 40% 10% / 0.08);
   }
 }
 
 @layer components {
   .glass-card {
-    background: hsl(0 0% 100% / 0.78);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 0 0 1px hsl(150 20% 80% / 0.6),
-                0 4px 24px -1px hsl(0 0% 0% / 0.07);
-    transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
-                box-shadow 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+    background: hsl(0 0% 100% / 0.82);
+    backdrop-filter: blur(16px);
+    box-shadow:
+      0 0 0 1px hsl(150 22% 78% / 0.55),
+      0 2px 4px hsl(0 0% 0% / 0.03),
+      0 8px 20px hsl(150 30% 50% / 0.09),
+      0 24px 48px hsl(0 0% 0% / 0.06);
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+                box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   .glass-card:hover {
-    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.35),
-                0 12px 40px -2px hsl(0 0% 0% / 0.1);
-    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.28),
+      0 4px 8px hsl(0 0% 0% / 0.05),
+      0 16px 40px hsl(var(--primary) / 0.13),
+      0 32px 64px hsl(0 0% 0% / 0.07);
+    transform: translateY(-4px);
   }
 
   .btn-primary {
     @apply bg-primary text-primary-foreground font-semibold rounded-lg px-6 py-3 transition-all;
+    box-shadow: 0 4px 14px hsl(var(--primary) / 0.35), 0 1px 3px hsl(0 0% 0% / 0.1);
   }
   .btn-primary:hover {
     filter: brightness(1.08);
-    transform: scale(1.02);
+    transform: scale(1.02) translateY(-1px);
+    box-shadow: 0 8px 24px hsl(var(--primary) / 0.45), 0 2px 6px hsl(0 0% 0% / 0.1);
   }
 
   .btn-outline {
     @apply border border-primary text-primary rounded-lg px-6 py-3 transition-all;
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.12);
   }
   .btn-outline:hover {
     background: hsl(var(--primary) / 0.08);
+    box-shadow: 0 4px 16px hsl(var(--primary) / 0.2);
   }
 
   .grain-overlay {
@@ -118,6 +129,26 @@
   .text-pretty {
     text-wrap: pretty;
   }
+
+  /* 3-D floating animations */
+  @keyframes float-3d-a {
+    0%, 100% { transform: perspective(600px) rotateX(0deg)  rotateY(0deg)  translateY(0px); }
+    33%       { transform: perspective(600px) rotateX(10deg) rotateY(16deg) translateY(-12px); }
+    66%       { transform: perspective(600px) rotateX(-6deg) rotateY(-10deg) translateY(-6px); }
+  }
+  @keyframes float-3d-b {
+    0%, 100% { transform: perspective(600px) rotateY(0deg)   rotateZ(0deg) translateY(0px); }
+    50%      { transform: perspective(600px) rotateY(-20deg) rotateZ(7deg) translateY(-16px); }
+  }
+  @keyframes float-3d-c {
+    0%, 100% { transform: perspective(600px) rotateX(0deg)   rotateZ(0deg) translateY(0px); }
+    25%      { transform: perspective(600px) rotateX(-12deg) rotateZ(-8deg) translateY(-8px); }
+    75%      { transform: perspective(600px) rotateX(8deg)   rotateZ(6deg)  translateY(-14px); }
+  }
+
+  .animate-float-3d-a { animation: float-3d-a 6s ease-in-out infinite; }
+  .animate-float-3d-b { animation: float-3d-b 8s ease-in-out infinite; }
+  .animate-float-3d-c { animation: float-3d-c 7s ease-in-out infinite 1s; }
 }
 
 ::-webkit-scrollbar { width: 8px; }
