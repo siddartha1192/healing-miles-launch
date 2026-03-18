@@ -114,8 +114,46 @@ export default function FAQ() {
           })}
         </div>
 
-        {/* split panel */}
-        <div className={`grid md:grid-cols-[1fr_1.6fr] gap-4 transition-all duration-700 delay-150 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+        {/* ── Mobile: accordion ── */}
+        <div className={`flex flex-col gap-2 md:hidden transition-all duration-700 delay-150 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          {filtered.map((f, i) => {
+            const isOpen = safeSelected === i;
+            return (
+              <div
+                key={i}
+                className="rounded-xl border overflow-hidden transition-all duration-200"
+                style={{ borderColor: isOpen ? "hsl(var(--primary)/0.5)" : "hsl(var(--border))" }}
+              >
+                {/* Question row */}
+                <button
+                  onClick={() => setSelected(isOpen ? -1 : i)}
+                  className={`w-full text-left px-4 py-4 flex items-start gap-3 transition-colors duration-200 ${isOpen ? "bg-primary text-primary-foreground" : "bg-background/50 text-foreground/70"}`}
+                >
+                  <span className={`mt-0.5 text-xs font-bold tabular shrink-0 ${isOpen ? "text-primary-foreground/60" : "text-foreground/30"}`}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="flex-1 text-sm font-medium leading-snug">{f.q}</span>
+                  <span className={`text-lg leading-none shrink-0 ml-2 transition-transform duration-300 ${isOpen ? "rotate-45 text-primary-foreground" : "text-foreground/30"}`}>+</span>
+                </button>
+
+                {/* Answer */}
+                <div
+                  className="overflow-hidden transition-all duration-400 ease-in-out"
+                  style={{ maxHeight: isOpen ? "600px" : "0px" }}
+                >
+                  <div className="px-4 py-5 bg-background border-t border-border/50 space-y-3">
+                    {f.a.split("\n\n").map((para, pi) => (
+                      <p key={pi} className="text-foreground/70 text-sm leading-relaxed">{para}</p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* ── Desktop: split panel ── */}
+        <div className={`hidden md:grid md:grid-cols-[1fr_1.6fr] gap-4 transition-all duration-700 delay-150 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
 
           {/* left — question list */}
           <div className="flex flex-col gap-2">
@@ -150,31 +188,20 @@ export default function FAQ() {
               key={`${activeCategory}-${safeSelected}`}
               className="bg-background rounded-2xl border border-border p-8 md:p-10 h-full min-h-[340px] flex flex-col justify-between shadow-[0_8px_40px_hsl(0_0%_0%/0.06)] animate-[fade-up_0.35s_ease_forwards]"
             >
-              {/* category tag */}
               <div>
                 <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary mb-5 px-3 py-1 rounded-full border border-primary/25 bg-primary/5">
                   {activeFaq?.category}
                 </span>
-
-                {/* question */}
                 <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6 leading-snug">
                   {activeFaq?.q}
                 </h3>
-
-                {/* divider */}
                 <div className="w-10 h-0.5 bg-primary/40 mb-6 rounded-full" />
-
-                {/* answer — render paragraphs split by \n\n */}
                 <div className="space-y-4">
                   {activeFaq?.a.split("\n\n").map((para, pi) => (
-                    <p key={pi} className="text-foreground/70 text-base leading-relaxed">
-                      {para}
-                    </p>
+                    <p key={pi} className="text-foreground/70 text-base leading-relaxed">{para}</p>
                   ))}
                 </div>
               </div>
-
-              {/* next question hint */}
               {safeSelected < filtered.length - 1 && (
                 <button
                   onClick={() => setSelected(safeSelected + 1)}

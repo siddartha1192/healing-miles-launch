@@ -159,14 +159,39 @@ export default function WebinarSection() {
       />
 
       <div className="container mx-auto pt-8 pb-10 lg:pt-10 lg:pb-16 relative z-10">
-        <div className="lg:grid lg:grid-cols-[1fr_460px] gap-14 lg:items-start">
+
+        {/* ── Hero title — mobile only (shows above everything) ── */}
+        <div className="lg:hidden mb-8">
+          <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/25 text-primary rounded-full px-4 py-2 text-sm font-semibold mb-5">
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            FREE LIVE WEBINAR — Limited Seats
+          </div>
+          <h1 className="text-4xl font-display leading-tight mb-4 text-foreground">
+            45 Minutes That Can
+            <br />
+            <span className="text-primary italic">Change Your Gut Forever</span>
+          </h1>
+          <p className="text-base text-foreground/65 mb-5 leading-relaxed">
+            Join Dr. Aman Khanna live on Zoom — completely free, no strings attached.
+          </p>
+          <div className="flex flex-wrap gap-3 text-xs mb-4">
+            <span className="flex items-center gap-1.5 text-foreground/60">📅 <strong className="text-foreground">Sat, 29 March · 7 PM IST</strong></span>
+            <span className="flex items-center gap-1.5 font-semibold text-orange-500">🔥 {seatsLeft} seats left</span>
+          </div>
+          <div className="max-w-[200px]">
+            <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+              <div className="h-full bg-orange-400 rounded-full transition-all duration-1000" style={{ width: `${seatsFilled}%` }} />
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_460px] gap-10 lg:gap-14 lg:items-start">
 
           {/* ── LEFT COLUMN: scrollable ── */}
           <div className="order-last lg:order-first space-y-16 lg:space-y-20">
 
-            {/* Hero area */}
-            <div className="relative">
-              {/* Parallax decorative orbs — subtle background behind hero area only */}
+            {/* Hero area — desktop only */}
+            <div className="relative hidden lg:block">
               <div
                 ref={heroBgRef}
                 className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl"
@@ -176,51 +201,30 @@ export default function WebinarSection() {
                 <div className="absolute bottom-[-60px] right-[-60px] w-96 h-96 rounded-full bg-primary/6 blur-3xl" />
                 <div className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full bg-secondary blur-2xl opacity-60" />
               </div>
-
               <div className="relative z-10 py-10 md:py-14">
-                {/* Live badge pill */}
                 <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/25 text-primary rounded-full px-4 py-2 text-sm font-semibold mb-6 animate-fade-up">
                   <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                   FREE LIVE WEBINAR — Limited Seats
                 </div>
-
-                {/* H1 title */}
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-display leading-tight mb-6 text-foreground animate-fade-up">
                   45 Minutes That Can
                   <br />
                   <span className="text-primary italic">Change Your Gut Forever</span>
                 </h1>
-
-                {/* Subtitle */}
                 <p className="text-lg md:text-xl text-foreground/65 max-w-2xl mb-10 animate-fade-up leading-relaxed">
                   Join Dr. Aman Khanna live on Zoom as he reveals the exact framework
                   that restored gut health for 5,000+ patients — completely free, no
                   strings attached.
                 </p>
-
-                {/* Event meta row */}
                 <div className="flex flex-wrap items-center gap-5 md:gap-8 text-sm animate-fade-up mb-6">
-                  <span className="flex items-center gap-2 text-foreground/60">
-                    📅 <strong className="text-foreground">Saturday, 29th March 2025</strong>
-                  </span>
-                  <span className="flex items-center gap-2 text-foreground/60">
-                    ⏰ <strong className="text-foreground">7:00 PM IST</strong>
-                  </span>
-                  <span className="flex items-center gap-2 text-foreground/60">
-                    🔴 <strong className="text-foreground">Live on Zoom</strong>
-                  </span>
-                  <span className="flex items-center gap-2 font-semibold text-orange-500">
-                    🔥 Only {seatsLeft} seats left
-                  </span>
+                  <span className="flex items-center gap-2 text-foreground/60">📅 <strong className="text-foreground">Saturday, 29th March 2025</strong></span>
+                  <span className="flex items-center gap-2 text-foreground/60">⏰ <strong className="text-foreground">7:00 PM IST</strong></span>
+                  <span className="flex items-center gap-2 text-foreground/60">🔴 <strong className="text-foreground">Live on Zoom</strong></span>
+                  <span className="flex items-center gap-2 font-semibold text-orange-500">🔥 Only {seatsLeft} seats left</span>
                 </div>
-
-                {/* Seat progress bar */}
                 <div className="max-w-xs">
                   <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-orange-400 rounded-full transition-all duration-1000"
-                      style={{ width: `${seatsFilled}%` }}
-                    />
+                    <div className="h-full bg-orange-400 rounded-full transition-all duration-1000" style={{ width: `${seatsFilled}%` }} />
                   </div>
                   <p className="text-xs text-foreground/45 mt-1.5">{seatsFilled} of 100 seats reserved</p>
                 </div>

@@ -38,21 +38,27 @@ export default function Testimonials() {
         >
           Real People. Real Gut Transformation.
         </h2>
-        <div ref={scrollRef} className="flex gap-6 overflow-x-auto pb-8 snap-x scrollbar-none" style={{ scrollbarWidth: "none" }}>
+        <div
+          ref={scrollRef}
+          className="flex gap-4 md:gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-none px-4 md:px-0"
+          style={{ scrollbarWidth: "none", scrollPaddingLeft: "1rem" }}
+        >
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="min-w-[300px] md:min-w-[400px] glass-card p-8 rounded-[32px] snap-center shrink-0"
+              className="min-w-[80vw] sm:min-w-[340px] md:min-w-[400px] max-w-[85vw] sm:max-w-none glass-card p-6 md:p-8 rounded-[24px] md:rounded-[32px] snap-center shrink-0 flex flex-col justify-between"
             >
-              <div className="text-primary mb-4">★★★★★</div>
-              <p className="text-lg italic mb-6 text-foreground">"{t.quote}"</p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-primary font-bold">
+              <div>
+                <div className="text-primary mb-3 text-sm md:text-base">★★★★★</div>
+                <p className="text-base md:text-lg italic mb-5 text-foreground leading-relaxed">"{t.quote}"</p>
+              </div>
+              <div className="flex items-center gap-3 mt-auto pt-4 border-t border-foreground/10">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-muted flex items-center justify-center text-primary font-bold text-sm flex-shrink-0">
                   {t.name[0]}
                 </div>
                 <div>
-                  <p className="font-bold text-foreground">{t.name}</p>
-                  <p className="text-xs text-foreground/50">{t.location} • {t.condition}</p>
+                  <p className="font-bold text-foreground text-sm md:text-base">{t.name}</p>
+                  <p className="text-xs text-foreground/50">{t.location} · {t.condition}</p>
                 </div>
               </div>
             </div>

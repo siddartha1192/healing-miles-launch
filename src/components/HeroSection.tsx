@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 import { useReveal, useCounter } from "@/hooks/use-reveal";
 import heroTexture from "@/assets/hero-texture.jpg";
 
@@ -9,7 +10,7 @@ function StatCounter({ target, suffix, label }: { target: number; suffix: string
   const count = useCounter(target, visible);
   return (
     <div ref={ref}>
-      <div className="text-4xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold text-primary mb-1 tabular">{count}{suffix}</div>
+      <div className="text-4xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold mb-1 tabular" style={{ color: "hsl(28, 45%, 18%)" }}>{count}{suffix}</div>
       <div className="text-xs uppercase tracking-widest text-foreground/60">{label}</div>
     </div>
   );
@@ -17,6 +18,37 @@ function StatCounter({ target, suffix, label }: { target: number; suffix: string
 
 export default function HeroSection() {
   const navigate = useNavigate();
+  const cardRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rotateY = ((x - cx) / cx) * 10;
+    const rotateX = -((y - cy) / cy) * 7;
+    card.style.transform = `perspective(1200px) rotateY(${rotateY}deg) rotateX(${rotateX}deg) scale(1.03)`;
+
+    // Move shine gradient with cursor
+    if (glowRef.current) {
+      const px = (x / rect.width) * 100;
+      const py = (y / rect.height) * 100;
+      glowRef.current.style.background = `radial-gradient(circle at ${px}% ${py}%, hsl(0 0% 100% / 0.22) 0%, transparent 60%)`;
+    }
+  }
+
+  function handleMouseLeave() {
+    const card = cardRef.current;
+    if (!card) return;
+    card.style.transform = "perspective(1200px) rotateY(-10deg) rotateX(4deg)";
+    if (glowRef.current) {
+      glowRef.current.style.background = "linear-gradient(135deg, hsl(0 0% 100% / 0.14) 0%, transparent 50%)";
+    }
+  }
 
   return (
     <section id="home" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
@@ -52,48 +84,106 @@ export default function HeroSection() {
           </div>
 
           {/* Doctor photo — 3D card effect */}
-          <div className="flex-shrink-0 flex justify-center md:justify-end" style={{ perspective: "1200px" }}>
+          <div className="hidden md:flex flex-shrink-0 items-center justify-center md:w-[380px] lg:w-[440px] xl:w-[480px]" style={{ perspective: "1200px" }}>
+            {/* Soft blurred glow behind the card */}
             <div
+              aria-hidden
               style={{
+                position: "absolute",
+                width: "85%",
+                height: "85%",
+                borderRadius: "28px",
+                background: "hsl(41, 72%, 52%, 0.25)",
+                filter: "blur(48px)",
+                transform: "translateY(24px) scale(0.94)",
+                zIndex: 0,
+                pointerEvents: "none",
+              }}
+            />
+            <div
+              ref={cardRef}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              style={{
+                position: "relative",
                 transform: "perspective(1200px) rotateY(-10deg) rotateX(4deg)",
                 transformStyle: "preserve-3d",
-                transition: "transform 0.4s ease",
-                borderRadius: "20px",
-                background: "hsl(150, 35%, 97%)",
+                transition: "transform 0.35s cubic-bezier(0.23, 1, 0.32, 1)",
+                borderRadius: "22px",
+                background: "hsl(40, 30%, 98%)",
+                zIndex: 1,
                 boxShadow:
-                  "2px 4px 0px 0px hsl(150, 30%, 72%), " +
-                  "4px 8px 0px 0px hsl(150, 25%, 80%), " +
-                  "6px 12px 0px 0px hsl(150, 22%, 87%), " +
-                  "8px 16px 0px 0px hsl(150, 18%, 92%), " +
-                  "20px 36px 60px -10px hsl(150, 40%, 10%, 0.2), " +
-                  "0 0 0 1px hsl(150, 28%, 78%, 0.5)",
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLDivElement).style.transform =
-                  "perspective(1200px) rotateY(-4deg) rotateX(2deg) scale(1.03)";
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLDivElement).style.transform =
-                  "perspective(1200px) rotateY(-10deg) rotateX(4deg)";
+                  /* layered staircase depth */
+                  "2px 4px 0px 0px hsl(35, 28%, 70%), " +
+                  "4px 8px 0px 0px hsl(35, 22%, 80%), " +
+                  "6px 12px 0px 0px hsl(35, 18%, 87%), " +
+                  "8px 16px 0px 0px hsl(35, 14%, 92%), " +
+                  /* deep ambient shadow */
+                  "16px 40px 80px -8px hsl(30, 40%, 10%, 0.30), " +
+                  /* near contact shadow */
+                  "0 8px 24px -4px hsl(30, 35%, 8%, 0.22), " +
+                  /* subtle border ring */
+                  "0 0 0 1.5px hsl(38, 30%, 78%, 0.55)",
               }}
             >
-              {/* Shine highlight on top-left edge */}
+              {/* Dynamic shine overlay — follows cursor */}
               <div
+                ref={glowRef}
                 style={{
                   position: "absolute",
                   inset: 0,
-                  borderRadius: "20px",
-                  background:
-                    "linear-gradient(135deg, hsl(0 0% 100% / 0.18) 0%, transparent 50%)",
+                  borderRadius: "22px",
+                  background: "linear-gradient(135deg, hsl(0 0% 100% / 0.14) 0%, transparent 50%)",
                   zIndex: 2,
                   pointerEvents: "none",
+                  transition: "background 0.1s ease",
                 }}
               />
+
+              {/* Verified badge */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "16px",
+                  right: "-14px",
+                  zIndex: 4,
+                  background: "hsl(41, 72% ,46%)",
+                  color: "#fff",
+                  borderRadius: "999px",
+                  padding: "6px 14px",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "0.05em",
+                  boxShadow: "0 4px 14px hsl(30, 60%, 20%, 0.35)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                ✓ Verified Specialist
+              </div>
+
+              {/* Experience tag bottom-left */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "20px",
+                  left: "-14px",
+                  zIndex: 4,
+                  background: "hsl(0 0% 100% / 0.92)",
+                  backdropFilter: "blur(8px)",
+                  borderRadius: "12px",
+                  padding: "10px 16px",
+                  boxShadow: "0 4px 20px hsl(30, 30%, 10%, 0.15), 0 0 0 1px hsl(38, 25%, 88%)",
+                }}
+              >
+                <div style={{ fontSize: "18px", fontWeight: 800, color: "hsl(28, 45%, 18%)", lineHeight: 1 }}>15+</div>
+                <div style={{ fontSize: "10px", color: "hsl(30, 10%, 45%)", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", marginTop: "2px" }}>Years of Practice</div>
+              </div>
+
               <img
                 src={DR_AMAN_URL}
                 alt="Dr. Aman"
-                style={{ borderRadius: "20px", display: "block" }}
-                className="w-72 md:w-96 lg:w-[420px] h-[420px] md:h-[540px] object-cover"
+                style={{ borderRadius: "22px", display: "block" }}
+                className="w-full h-[420px] md:h-[500px] lg:h-[540px] object-cover object-top"
               />
             </div>
           </div>
